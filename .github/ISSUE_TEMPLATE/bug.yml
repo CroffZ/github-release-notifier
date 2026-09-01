@@ -1,0 +1,84 @@
+name: Bug report
+description: Report incorrect release analysis or notification behavior
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Remove tokens, private repository
+        details, and other secrets before sharing logs or configuration.
+  - type: dropdown
+    id: integration
+    attributes:
+      label: Integration
+      options:
+        - GitHub Action
+        - Reusable workflow
+        - semantic-release plugin
+        - CLI
+        - Core library
+        - Development tooling
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Package version, Action ref, or full commit SHA
+      placeholder: v1.2.3 or 0123456789abcdef...
+    validations:
+      required: true
+  - type: dropdown
+    id: release-model
+    attributes:
+      label: Release model
+      options:
+        - Stable linear releases
+        - Prerelease or release-candidate channel
+        - Nightly or rolling channel
+        - Maintenance or nonlinear branches
+        - Monorepo package releases
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Include the expected release boundaries and pull requests.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description:
+        Explain what happened and include sanitized dry-run diagnostics.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description:
+        Provide the smallest reproducible configuration and release graph.
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add relevant logs, links, or repository topology.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label:
+            I removed tokens, private repository details, and other secrets.
+          required: true
+        - label: I confirmed this is not a private security vulnerability.
+          required: true

@@ -1,0 +1,58 @@
+name: Feature request
+description:
+  Propose a focused behavior, release policy, or integration improvement
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What release-notification problem cannot be solved today?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Core engine
+        - Previous-release policy
+        - GitHub Action
+        - Reusable workflow
+        - semantic-release plugin
+        - CLI
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description:
+        Describe inputs, outputs, failure modes, and dry-run behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: release-topology
+    attributes:
+      label: Release topology
+      description: Show example tags, branches, ancestry, or package boundaries.
+      render: text
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Explain workarounds or policies you considered.
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Design boundaries
+      options:
+        - label: The proposal preserves dry-run and idempotent behavior.
+          required: true
+        - label:
+            The proposal does not use changelog labels as release-membership
+            evidence.
+          required: true
