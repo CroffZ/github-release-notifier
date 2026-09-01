@@ -1,0 +1,45 @@
+name: GitHub Release Notifier
+description: Notify merged pull requests when they ship in a GitHub release
+author: CroffZ
+branding:
+  color: blue
+  icon: bell
+inputs:
+  github-token:
+    description: Token used to read repository data and comment on pull requests
+    required: true
+  repository:
+    description:
+      Repository in owner/name form; defaults to the current repository
+    required: false
+  release-tag:
+    description: Release tag; future releases may derive it from a release event
+    required: false
+  release-url:
+    description: Canonical URL linked from pull request comments
+    required: false
+  previous-release-tag:
+    description: Explicit previous release boundary
+    required: false
+  previous-release-policy:
+    description: Policy used when previous-release-tag is omitted
+    required: false
+    default: stable-linear
+  path-filters:
+    description: Newline-delimited package or path filters for monorepos
+    required: false
+  dry-run:
+    description: Plan and report notifications without writing comments
+    required: false
+    default: "false"
+  validate-tag-target:
+    description:
+      Verify that the release tag and expected artifact identity agree
+    required: false
+    default: "true"
+outputs:
+  plan:
+    description: JSON notification plan, including dry-run diagnostics
+runs:
+  using: node24
+  main: packages/action/dist/index.js

@@ -1,0 +1,33 @@
+{
+  "name": "@github-release-notifier/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Core release-to-pull-request notification engine contracts",
+  "author": "Croff Zhong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CroffZ/github-release-notifier.git",
+    "directory": "packages/core"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean --sourcemap",
+    "typecheck": "tsc --project tsconfig.json"
+  }
+}

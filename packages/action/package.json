@@ -1,0 +1,35 @@
+{
+  "name": "@github-release-notifier/action",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GitHub Action adapter for github-release-notifier",
+  "author": "Croff Zhong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CroffZ/github-release-notifier.git",
+    "directory": "packages/action"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "type": "commonjs",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "ncc build src/index.ts --out dist --source-map --license licenses.txt",
+    "typecheck": "tsc --project tsconfig.json"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.1",
+    "@github-release-notifier/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "0.45.0"
+  }
+}

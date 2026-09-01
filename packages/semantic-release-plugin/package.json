@@ -1,0 +1,44 @@
+{
+  "name": "semantic-release-github-release-notifier",
+  "version": "0.0.0",
+  "private": true,
+  "description": "semantic-release context adapter for github-release-notifier",
+  "author": "Croff Zhong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CroffZ/github-release-notifier.git",
+    "directory": "packages/semantic-release-plugin"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean --sourcemap",
+    "typecheck": "tsc --project tsconfig.json"
+  },
+  "dependencies": {
+    "@github-release-notifier/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "semantic-release": ">=24 <26"
+  },
+  "peerDependenciesMeta": {
+    "semantic-release": {
+      "optional": true
+    }
+  }
+}

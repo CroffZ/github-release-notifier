@@ -1,0 +1,30 @@
+{
+  "name": "github-release-notifier",
+  "version": "0.0.0",
+  "private": true,
+  "description": "CLI for github-release-notifier dry runs and diagnostics",
+  "author": "Croff Zhong",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CroffZ/github-release-notifier.git",
+    "directory": "packages/cli"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "type": "module",
+  "bin": {
+    "github-release-notifier": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --clean --sourcemap",
+    "typecheck": "tsc --project tsconfig.json"
+  },
+  "dependencies": {
+    "@github-release-notifier/core": "workspace:*"
+  }
+}

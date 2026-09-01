@@ -1,0 +1,58 @@
+name: Reusable release PR notifier
+
+on:
+  workflow_call:
+    inputs:
+      release-tag:
+        description: Release tag to notify
+        required: true
+        type: string
+      release-url:
+        description: Canonical release URL
+        required: false
+        type: string
+      previous-release-tag:
+        description: Explicit previous release boundary
+        required: false
+        type: string
+      previous-release-policy:
+        description: Previous-release selection policy
+        required: false
+        default: stable-linear
+        type: string
+      path-filters:
+        description: Newline-delimited monorepo path filters
+        required: false
+        type: string
+      dry-run:
+        description: Report without posting comments
+        required: false
+        default: false
+        type: boolean
+      validate-tag-target:
+        description: Validate release tag and artifact identity
+        required: false
+        default: true
+        type: boolean
+    secrets:
+      github-token:
+        description: Caller-controlled GitHub token
+        required: true
+
+# Permissions are intentionally omitted. The caller grants contents:read and,
+# unless dry-run is true, pull-requests:write.
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify shipped pull requests
+        uses: $/
+        with:
+          github-token: ${{ secrets.github-token }}
+          release-tag: ${{ inputs.release-tag }}
+          release-url: ${{ inputs.release-url }}
+          previous-release-tag: ${{ inputs.previous-release-tag }}
+          previous-release-policy: ${{ inputs.previous-release-policy }}
+          path-filters: ${{ inputs.path-filters }}
+          dry-run: ${{ inputs.dry-run }}
+          validate-tag-target: ${{ inputs.validate-tag-target }}
