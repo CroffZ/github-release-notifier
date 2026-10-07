@@ -70,21 +70,34 @@ function matchesPathFilter(
   );
 }
 
-function escapeMarkdownText(value: string): string {
-  return value.replaceAll("\\", "\\\\").replace(/[`*_{}[\]()#+!|>]/gu, "\\$&");
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/gu, (character) => {
+    switch (character) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      case "'":
+        return "&#39;";
+      default:
+        return character;
+    }
+  });
 }
 
 function renderComment(input: ReleaseAnalysisInput, marker: string): string {
-  const tag = escapeMarkdownText(input.release.tagName);
-  let release = `\`${tag.replace(/`/gu, "\\`")}\``;
+  const tag = `<code>${escapeHtml(input.release.tagName)}</code>`;
+  let release = tag;
   if (input.release.url) {
     const url = new URL(input.release.url);
     if (url.protocol !== "https:") {
       throw new Error("Release URL must use HTTPS");
     }
-    release = `[${tag}](${url.href.replace(/[()]/gu, (character) =>
-      character === "(" ? "%28" : "%29",
-    )})`;
+    release = `<a href="${escapeHtml(url.href)}">${tag}</a>`;
   }
   return `This pull request shipped in ${release}.\n\n${marker}`;
 }

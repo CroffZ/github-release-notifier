@@ -130,7 +130,7 @@ describe("createReleaseNotificationEngine", () => {
       pullRequest,
       alreadyExists: false,
       body: expect.stringContaining(
-        "[v2.0.0](https://github.com/owner/repo/releases/tag/v2.0.0)",
+        '<a href="https://github.com/owner/repo/releases/tag/v2.0.0"><code>v2.0.0</code></a>',
       ),
     });
     expect(
@@ -239,7 +239,7 @@ describe("createReleaseNotificationEngine", () => {
     ).rejects.toThrow(/HTTPS/);
   });
 
-  it("escapes backslashes in untrusted release tags", async () => {
+  it("renders untrusted release tags as escaped HTML text", async () => {
     const git = createGitPort({
       tags: { "v1.0.0": "old", "v2\\release": "new" },
       parents: { new: "old" },
@@ -257,7 +257,31 @@ describe("createReleaseNotificationEngine", () => {
       }),
     );
 
-    expect(plan.notifications[0]?.body).toContain("v2\\\\release");
+    expect(plan.notifications[0]?.body).toContain("<code>v2\\release</code>");
+  });
+
+  it("HTML-escapes tag text and the release URL", async () => {
+    const git = createGitPort({
+      tags: { "v1.0.0": "old", "v2.0.0<release>": "new" },
+      parents: { new: "old" },
+    });
+    const github = createGitHubPort({ associations: { c1: [pullRequest] } });
+    const engine = createReleaseNotificationEngine({ git, github });
+
+    const plan = await engine.plan(
+      input({
+        release: {
+          tagName: "v2.0.0<release>",
+          url: "https://example.com/release?label=safe&next=ok",
+        },
+        knownCommits: [{ sha: "c1" }],
+      }),
+    );
+
+    expect(plan.notifications[0]?.body).toContain(
+      "<code>v2.0.0&lt;release&gt;</code>",
+    );
+    expect(plan.notifications[0]?.body).toContain("&amp;next=ok");
   });
 
   it("filters notifications by matching changed paths and checks existing markers", async () => {
