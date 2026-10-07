@@ -10,6 +10,18 @@ stable release, `stable-linear` can select the newest stable tag that is an
 ancestor of the current tag. The engine must verify ancestry rather than trust
 version ordering or release creation time.
 
+The core provides `createStableLinearPreviousReleasePolicy` for this model. It
+ignores candidates marked as prereleases, selects by Git ancestry, and fails
+when the candidate history has multiple equally recent stable boundaries. If no
+prior stable ancestor exists, the plan covers all reachable commits and includes
+a diagnostic. An explicitly supplied previous release is also checked for
+ancestry before commit analysis.
+
+The core planner accepts `pathFilter.include` and `pathFilter.exclude` glob
+patterns after determining the release range. `packageName` filtering is not
+implemented because package ownership metadata is not yet part of the core
+contract.
+
 ## Prerelease and release-candidate channels
 
 RCs may be incremental (`v2.0.0-rc.1` to `rc.2`) or compared with the last

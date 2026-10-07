@@ -14,6 +14,9 @@ export type {
   ReleaseRef,
   RepositoryRef,
 } from "./contracts.js";
+export { createReleaseNotificationEngine } from "./engine.js";
+export type { ReleaseNotificationEngineOptions } from "./engine.js";
+export { createStableLinearPreviousReleasePolicy } from "./previous-release-policies.js";
 export {
   createReleaseMarker,
   parseRepositorySlug,
