@@ -239,6 +239,27 @@ describe("createReleaseNotificationEngine", () => {
     ).rejects.toThrow(/HTTPS/);
   });
 
+  it("escapes backslashes in untrusted release tags", async () => {
+    const git = createGitPort({
+      tags: { "v1.0.0": "old", "v2\\release": "new" },
+      parents: { new: "old" },
+    });
+    const github = createGitHubPort({ associations: { c1: [pullRequest] } });
+    const engine = createReleaseNotificationEngine({
+      git,
+      github,
+    });
+
+    const plan = await engine.plan(
+      input({
+        release: { tagName: "v2\\release" },
+        knownCommits: [{ sha: "c1" }],
+      }),
+    );
+
+    expect(plan.notifications[0]?.body).toContain("v2\\\\release");
+  });
+
   it("filters notifications by matching changed paths and checks existing markers", async () => {
     const git = createGitPort({
       tags: { "v1.0.0": "old", "v2.0.0": "new" },

@@ -71,7 +71,7 @@ function matchesPathFilter(
 }
 
 function escapeMarkdownText(value: string): string {
-  return value.replace(/[\\`*_{}[\]()#+!|>]/gu, "\\$&");
+  return value.replaceAll("\\", "\\\\").replace(/[`*_{}[\]()#+!|>]/gu, "\\$&");
 }
 
 function renderComment(input: ReleaseAnalysisInput, marker: string): string {

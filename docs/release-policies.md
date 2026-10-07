@@ -12,10 +12,10 @@ version ordering or release creation time.
 
 The core provides `createStableLinearPreviousReleasePolicy` for this model. It
 ignores candidates marked as prereleases, selects by Git ancestry, and fails
-when the candidate history has multiple equally recent stable boundaries. If
-no prior stable ancestor exists, the plan covers all reachable commits and
-includes a diagnostic. An explicitly supplied previous release is also checked
-for ancestry before commit analysis.
+when the candidate history has multiple equally recent stable boundaries. If no
+prior stable ancestor exists, the plan covers all reachable commits and includes
+a diagnostic. An explicitly supplied previous release is also checked for
+ancestry before commit analysis.
 
 The core planner accepts `pathFilter.include` and `pathFilter.exclude` glob
 patterns after determining the release range. `packageName` filtering is not
